@@ -1,1 +1,35 @@
-# key-value
+# Key-Value
+
+
+## Structure
+The project follows a modular structure to separate the entry point from the core logic:
+- `main.cpp`: Program entry and CLI interface.
+- `src/`: Implementation files for storage logic and data structures.
+- `include/`: Header files and interface definitions.
+- `obj/`: Isolated build artifacts for clean incremental compilation.
+
+## Build Requirements
+- **Compiler**: `g++`
+- **Build Tool**: `make`
+- **Environment**: Linux/Unix-based systems
+
+## Build Instructions
+The project utilizes a custom Makefile.
+
+### Build and Run
+To compile and execute the program in one step:
+```bash
+make
+```
+
+### Manual Build
+To generate the binary without immediate execution:
+```bash
+make kv
+```
+
+### Cleanup
+To remove object files and binary:
+```bash
+make clean
+```
