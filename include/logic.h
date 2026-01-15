@@ -1,3 +1,5 @@
 #pragma once
+#include <string>
 
-int get_status();
+void set_value(int key, const std::string &value);
+std::string get_value(int key);
