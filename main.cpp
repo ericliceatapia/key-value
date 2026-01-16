@@ -1,7 +1,6 @@
-#include <iostream>
-
 #include "logic.h"
 #include "parser.h"
+#include <iostream>
 
 int main(int argc, char *argv[]) {
   if (argc < 2) {
@@ -15,6 +14,7 @@ int main(int argc, char *argv[]) {
     Command cmd = parse_input(argv[i]);
 
     if (!cmd.valid) {
+      std::cerr << "bad command" << std::endl;
       continue;
     }
 

@@ -1,7 +1,5 @@
 #include "logic.h"
-#include <format>
 #include <fstream>
-#include <iostream>
 #include <sstream>
 #include <stdexcept>
 #include <unordered_map>
@@ -34,7 +32,7 @@ void save_data() {
   std::ofstream file(DB_FILE, std::ios::trunc);
 
   for (const auto &pair : kv_store) {
-    file << pair.first << "," << pair.second << "\n";
+    file << pair.first << "," << pair.second << std::endl;
   }
   file.close();
 }
