@@ -1,5 +1,9 @@
 # Key-Value
 
+## Features
+- **Batch Processing**: Execute multiple commands in a single run.
+- **Persistence**: Automatic laod/save to `database.txt`.
+- **Modularity**: Separated parser, logic, and interface.
 
 ## Structure
 The project follows a modular structure to separate the entry point from the core logic:
@@ -16,14 +20,16 @@ The project follows a modular structure to separate the entry point from the cor
 ## Build Instructions
 The project utilizes a custom Makefile.
 
-### Manual Build
-To generate the binary without immediate execution:
 ```bash
-make
+make        # build
+make clean  # remove build artifacts
 ```
 
-### Cleanup
-To remove object files and binary:
-```bash
-make clean
-```
+## Command Format
+Commands use a comma-separated format:
+- `p,key,value`: Put/Update a key.
+- `g,key`: Get a key.
+- `d,key`: Delete a key.
+- `c`: Clear all keys and values.
+- `a`: List all keys and values.
+**Example**: `./kv p,1,eric g,1 d,1 a`
