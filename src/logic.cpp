@@ -43,10 +43,10 @@ void put(int key, const std::string &value) { kv_store[key] = value; }
 
 std::string get(int key) {
   auto it = kv_store.find(key);
-  if (it != kv_store.end()) {
-    return it->second;
+  if (it == kv_store.end()) {
+    throw std::out_of_range(std::to_string(key) + " not found.");
   }
-  return "";
+  return std::to_string(it->first) + "," + it->second;
 }
 
 void del(int key) {
