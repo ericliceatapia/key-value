@@ -1,42 +1,37 @@
 #include <iostream>
 
-#include "parser.h"
 #include "logic.h"
+#include "parser.h"
 
-int main(int argc, char *argv[])
-{
-    if (argc < 2)
-    {
-        std::cerr << "Missing arguments. Type 'help'.\n";
-        return 1;
+int main(int argc, char *argv[]) {
+  if (argc < 2) {
+    std::cerr << "Usage: ./kv <cmd1> <cmd2>..." << std::endl;
+    return 1;
+  }
+
+  load_data();
+
+  for (int i = 1; i < argc; ++i) {
+    Command cmd = parse_input(argv[i]);
+
+    if (!cmd.valid) {
+      continue;
     }
 
-    for (int i = 1; i < argc; ++i)
-    {
-        Command cmd = parse_input(argv[i]);
-
-        if (!cmd.valid)
-        {
-            std::cerr << "Command [" << i << "] Error: Invalid format '" << argv[i] << "'\n";
-            continue;
-        }
-        if (cmd.type == 'p')
-        {
-            set_value(cmd.key, cmd.value);
-        }
-        else if (cmd.type == 'g')
-        {
-            std::string result = get_value(cmd.key);
-            if (result.empty())
-            {
-                std::cout << cmd.key << " not found\n";
-            }
-            else
-            {
-                std::cout << result << std::endl;
-            }
-        }
+    if (cmd.type == 'p') {
+      put(cmd.key, cmd.value);
+    } else if (cmd.type == 'g') {
+      std::cout << get(cmd.key) << std::endl;
+    } else if (cmd.type == 'd') {
+      std::cout << del(cmd.key) << std::endl;
+    } else if (cmd.type == 'c') {
+      std::cout << clr() << std::endl;
+    } else if (cmd.type == 'a') {
+      std::cout << all() << std::endl;
     }
+  }
 
-    return 0;
+  save_data();
+
+  return 0;
 }

@@ -1,19 +1,59 @@
 #include "logic.h"
+#include <format>
+#include <fstream>
+#include <iostream>
+#include <sstream>
 #include <unordered_map>
 
 static std::unordered_map<int, std::string> kv_store;
+const std::string DB_FILE = "database.txt";
 
-void set_value(int key, const std::string &value)
-{
-    kv_store[key] = value;
-}
+void load_data() {
+  std::ifstream file(DB_FILE);
+  if (!file.is_open())
+    return;
 
-std::string get_value(int key)
-{
-    auto it = kv_store.find(key);
-    if (it != kv_store.end())
-    {
-        return it->second;
+  std::string line;
+  while (std::getline(file, line)) {
+    std::stringstream ss(line);
+    std::string key_str, value;
+
+    if (std::getline(ss, key_str, ',') && std::getline(ss, value)) {
+      try {
+        kv_store[std::stoi(key_str)] = value;
+      } catch (...) {
+        continue;
+      }
     }
-    return "";
+  }
+  file.close();
 }
+
+void save_data() {
+  std::ofstream file(DB_FILE, std::ios::trunc);
+
+  for (const auto &pair : kv_store) {
+    file << pair.first << "," << pair.second << "\n";
+  }
+  file.close();
+}
+
+void put(int key, const std::string &value) { kv_store[key] = value; }
+
+std::string get(int key) {
+  auto it = kv_store.find(key);
+  if (it != kv_store.end()) {
+    return it->second;
+  }
+  return "";
+}
+
+std::string del(int key) {
+  std::ostringstream oss;
+  oss << "delete called on " << key;
+  return oss.str();
+}
+
+std::string clr() { return "clear called"; }
+
+std::string all() { return "all called"; }
