@@ -4,7 +4,6 @@
 
 int main(int argc, char *argv[]) {
   if (argc < 2) {
-    std::cerr << "Usage: ./kv <cmd1> <cmd2>..." << std::endl;
     return 1;
   }
 
@@ -14,23 +13,18 @@ int main(int argc, char *argv[]) {
     Command cmd = parse_input(argv[i]);
 
     if (!cmd.valid) {
-      std::cerr << "bad command" << std::endl;
+      std::cout << "bad command" << std::endl;
       continue;
     }
 
     if (cmd.type == 'p') {
       put(cmd.key, cmd.value);
     } else if (cmd.type == 'g') {
-      try {
-        std::cout << get(cmd.key) << std::endl;
-      } catch (const std::out_of_range &e) {
-        std::cerr << e.what() << std::endl;
-      }
+      std::cout << get(cmd.key) << std::endl;
+
     } else if (cmd.type == 'd') {
-      try {
-        del(cmd.key);
-      } catch (const std::out_of_range &e) {
-        std::cerr << e.what() << std::endl;
+      if (!del(cmd.key).empty()) {
+        std::cout << del(cmd.key) << std::endl;
       }
     } else if (cmd.type == 'c') {
       clr();

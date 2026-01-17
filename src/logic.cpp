@@ -1,7 +1,6 @@
 #include "logic.h"
 #include <fstream>
 #include <sstream>
-#include <stdexcept>
 #include <unordered_map>
 
 static std::unordered_map<int, std::string> kv_store;
@@ -18,11 +17,7 @@ void load_data() {
     std::string key_str, value;
 
     if (std::getline(ss, key_str, ',') && std::getline(ss, value)) {
-      try {
-        kv_store[std::stoi(key_str)] = value;
-      } catch (...) {
-        continue;
-      }
+      kv_store[std::stoi(key_str)] = value;
     }
   }
   file.close();
@@ -43,17 +38,18 @@ std::string get(int key) {
   auto it = kv_store.find(key);
 
   if (it == kv_store.end()) {
-    throw std::out_of_range(std::to_string(key) + " not found.");
+    return std::to_string(key) + " not found";
   }
   return std::to_string(key) + "," + it->second;
 }
 
-void del(int key) {
+std::string del(int key) {
   size_t removed = kv_store.erase(key);
 
   if (removed == 0) {
-    throw std::out_of_range(std::to_string(key) + " not found.");
+    return std::to_string(key) + " not found";
   }
+  return "";
 }
 
 void clr() { kv_store.clear(); }
